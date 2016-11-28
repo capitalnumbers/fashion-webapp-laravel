@@ -29,3 +29,6 @@ Route::get('/settings/account', 'AccountsController@edit');
 Route::patch('/settings/account', 'AccountsController@update');
 
 Route::resource('products','ProductsController');
+
+Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
