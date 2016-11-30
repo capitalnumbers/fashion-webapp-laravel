@@ -185,6 +185,11 @@ return [
          */
         Laravel\Socialite\SocialiteServiceProvider::class,
 
+        /*
+         * Image Service Providers...
+         */
+        Intervention\Image\ImageServiceProvider::class
+
     ],
 
     /*
@@ -237,6 +242,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

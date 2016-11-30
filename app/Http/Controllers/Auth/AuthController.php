@@ -7,15 +7,13 @@ use App\Http\Controllers\Controller;
 
 use Socialite;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller{
     /**
      * Redirect the user to the GitHub authentication page.
      *
      * @return Response
      */
-    public function redirectToProvider()
-    {
+    public function redirectToProvider(){
         return Socialite::driver('facebook')->redirect();
     }
 
@@ -24,8 +22,7 @@ class AuthController extends Controller
      *
      * @return Response
      */
-    public function handleProviderCallback()
-    {
+    public function handleProviderCallback(){
         $user = Socialite::driver('facebook')->user();
 
         print_r($user);die();

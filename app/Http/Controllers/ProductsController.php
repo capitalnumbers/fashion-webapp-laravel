@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Product;
+use App\Repositories\Eloquent\Models\Product as Model;
+use App\Repositories\Eloquent\ProductRepository as Product;
 
 class ProductsController extends Controller
 {
-    public function __construct()
-    {
+    private $product;
+
+    public function __construct(Product $product){
         $this->middleware('auth');
+
+        $this->product = $product;
     }
 
     /**
@@ -17,9 +21,8 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('products.index', ['products' => Product::paginate(20)]);
+    public function index(){
+        return view('products.index', ['products' => $this->product->paginate(20)]);
     }
 
     /**
@@ -27,9 +30,8 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('products.create', ['model' => new Product()]);
+    public function create(){
+        return view('products.create', ['model' => new Model()]);
     }
 
     /**
@@ -38,9 +40,8 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $model = new Product();
+    public function store(Request $request){
+        $model = new Model();
 
         $model->product_name = $request->product_name;
         $model->product_description = $request->product_description;
@@ -57,9 +58,8 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $model = Product::findOrFail($id);
+    public function show($id){
+        $model = $this->product->findOrFail($id);
 
         return view('products.show', ['model' => $model]);
     }
@@ -70,9 +70,8 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $model = Product::findOrFail($id);
+    public function edit($id){
+        $model = $this->product->findOrFail($id);
 
         return view('products.edit', ['model' => $model]);
     }
@@ -84,8 +83,7 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         $model = Product::findOrFail($id);
 
         $model->product_name = $request->product_name;
@@ -105,8 +103,7 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id){
         $model = Product::findOrFail($id);
 
         if ($model->delete() && $model->trashed() ) {

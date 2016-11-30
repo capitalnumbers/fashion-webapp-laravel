@@ -15,12 +15,12 @@
 
         <div class="form-group">
           {!! Form::label('product_description', 'product description') !!}
-          {!! Form::text('product_description', $model->product_description ?? '', ['class' => 'form-control']) !!}
+          {!! Form::textarea('product_description', $model->product_description ?? '', ['class' => 'form-control']) !!}
         </div>
 
         <div class="form-group">
           {!! Form::label('product_price', 'product price') !!}
-          {!! Form::text('product_price', $model->product_price ?? '', ['class' => 'form-control']) !!}
+          {!! Form::number('product_price', $model->product_price ?? '', ['class' => 'form-control']) !!}
         </div>
 
         <button class="btn btn-success" type="submit">Add Product!</button>
