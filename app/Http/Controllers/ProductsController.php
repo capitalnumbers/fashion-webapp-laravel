@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\Eloquent\Models\Product as Model;
 use App\Repositories\Eloquent\ProductRepository as Product;
 
 class ProductsController extends Controller
@@ -31,7 +30,7 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        return view('products.create', ['model' => new Model()]);
+        return view('products.create', ['model' => $this->product->createNewInstance()]);
     }
 
     /**
@@ -41,14 +40,15 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        $model = new Model();
 
-        $model->product_name = $request->product_name;
-        $model->product_description = $request->product_description;
-        $model->product_price = $request->product_price;
-        $model->product_seller = auth()->id();
-
-        if ($model->save())
+        if ($model = $this->product->create([
+                'product_name' => $request->product_name,
+                'product_description' => $request->product_description,
+                'product_price' => $request->product_price,
+                'product_seller' => auth()->id(),
+                'in_stock' => $request->in_stock
+            ])
+        )
             return redirect()->action('ProductsController@show', ['id' => $model->id]);
     }
 
@@ -84,14 +84,17 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-        $model = Product::findOrFail($id);
+        $model = $this->product->findOrFail($id);
 
-        $model->product_name = $request->product_name;
-        $model->product_description = $request->product_description;
-        $model->product_price = $request->product_price;
-        $model->product_seller = auth()->id();
-
-        if ($model->save())
+        if ($this->product->update([
+                'product_name' => $request->product_name,
+                'product_description' => $request->product_description,
+                'product_price' => $request->product_price,
+                'product_seller' => auth()->id(),
+                'in_stock' => $request->in_stock
+                ],$model->id
+            )
+        )
             return redirect()->action('ProductsController@show', ['id' => $model->id]);
         else
             return redirect()->action('ProductsController@edit', ['id' => $model->id]);
@@ -104,12 +107,11 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id){
-        $model = Product::findOrFail($id);
 
-        if ($model->delete() && $model->trashed() ) {
+        $model = $this->product->findOrFail($id);
 
+        if ($this->product->delete($model->id))
             return redirect()->action('ProductsController@index');
-        }
         else
             throw new Exception('Could not delete product.', 1);
     }

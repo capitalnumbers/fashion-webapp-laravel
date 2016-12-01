@@ -12,7 +12,7 @@
                             <p>Product Name</p>
                             <p>{{ $model->product_name }}</p>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <p>product_price</p>
                             <p>{{ $model->product_price }}</p>
                         </div>
@@ -23,6 +23,10 @@
                         <div class="col-md-3">
                             <p>created_at</p>
                             <p>{{ $model->created_at }}</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            {{ link_to_action('ProductsController@edit', 'Edit', ['id' => $model->id]) }}
                         </div>
                     </div>
                 </div>

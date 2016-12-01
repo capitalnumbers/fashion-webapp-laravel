@@ -57,8 +57,9 @@ abstract class BaseRepository implements RepositoryInterface
      * New Model Instance for using in create route.
      * Returns a new model instance.
     */
-    public function newInstance() {
-        return $this->model;
+    public function createNewInstance(array $attributes = array())
+    {
+        return $this->model->newInstance($attributes);
     }
 
     /**
@@ -115,8 +116,8 @@ abstract class BaseRepository implements RepositoryInterface
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Builder
-     * @throws RepositoryException
+     * @return \Illuminate\Database\Eloquent\Model
+     * @return model
      */
     public function makeModel() {
         $model = $this->app->make($this->model());
@@ -124,7 +125,7 @@ abstract class BaseRepository implements RepositoryInterface
         if (!$model instanceof Model)
             throw new Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
 
-        return $this->model = $model->newQuery();
+        return $this->model = $model;
     }
 }
 ?>

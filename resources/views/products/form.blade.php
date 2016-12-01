@@ -23,6 +23,11 @@
           {!! Form::number('product_price', $model->product_price ?? '', ['class' => 'form-control']) !!}
         </div>
 
+        <div class="form-group">
+          {!! Form::label('in_stock', 'In Stock') !!}
+          {!! Form::checkbox('in_stock', $model->in_stock ?? '', true) !!}
+        </div>
+
         <button class="btn btn-success" type="submit">Add Product!</button>
 
     {!! Form::close() !!}

@@ -5,9 +5,9 @@ interface RepositoryInterface {
 
     public function all($columns = array('*'));
 
-    public function paginate($perPage = 15, $columns = array('*'));
+    public function paginate($perPage = 20, $columns = array('*'));
 
-    public function newInstance();
+    public function createNewInstance(array $attributes = array());
 
     public function create(array $data);
 
