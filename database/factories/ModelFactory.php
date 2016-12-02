@@ -32,7 +32,7 @@ $factory->define(App\Product::class, function(Faker\Generator $faker){
     return [
         'product_name' => $faker->sentence,
         'product_description' => $faker->paragraph,
-        'product_price' => $faker->randomFloat(2, 10, 500000),
+        'product_price' => $faker->randomFloat(2, 10, 5000),
         'currency_code' => 'INR',
         'product_seller' => 1,
         'created_at' => $faker->dateTime,

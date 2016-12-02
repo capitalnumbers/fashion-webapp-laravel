@@ -1,15 +1,16 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\ProductRepository as Product;
 
-class ProductsController extends Controller
-{
+use App\Repositories\Criteria\Products\ProductsOfThisUser;
+
+class ProductsController extends Controller {
     private $product;
 
     public function __construct(Product $product){
+
         $this->middleware('auth');
 
         $this->product = $product;
@@ -21,6 +22,9 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+
+        $this->product->pushCriteria(New ProductsOfThisUser());
+
         return view('products.index', ['products' => $this->product->paginate(20)]);
     }
 
@@ -30,6 +34,7 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
+
         return view('products.create', ['model' => $this->product->createNewInstance()]);
     }
 
@@ -59,6 +64,7 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
+
         $model = $this->product->findOrFail($id);
 
         return view('products.show', ['model' => $model]);
@@ -71,6 +77,9 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
+
+        $this->product->pushCriteria(New ProductsOfThisUser());
+
         $model = $this->product->findOrFail($id);
 
         return view('products.edit', ['model' => $model]);
@@ -84,13 +93,15 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
+
+        $this->product->pushCriteria(New ProductsOfThisUser());
+
         $model = $this->product->findOrFail($id);
 
         if ($this->product->update([
                 'product_name' => $request->product_name,
                 'product_description' => $request->product_description,
                 'product_price' => $request->product_price,
-                'product_seller' => auth()->id(),
                 'in_stock' => $request->in_stock
                 ],$model->id
             )
@@ -107,6 +118,8 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id){
+
+        $this->product->pushCriteria(New ProductsOfThisUser());
 
         $model = $this->product->findOrFail($id);
 

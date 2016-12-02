@@ -7,8 +7,7 @@ use App\Repositories\Contracts\ProductRepositoryInterface;
 /**
 * Repository to handle products.
 */
-class ProductRepository extends BaseRepository implements ProductRepositoryInterface
-{
+class ProductRepository extends BaseRepository implements ProductRepositoryInterface {
 
     function model()
     {

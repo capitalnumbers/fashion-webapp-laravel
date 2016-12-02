@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-10 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Product details</div>
 
@@ -26,7 +26,9 @@
                         </div>
 
                         <div class="col-md-2">
-                            {{ link_to_action('ProductsController@edit', 'Edit', ['id' => $model->id]) }}
+                            @if ($model->product_seller === auth()->id())
+                                {{ link_to_action('ProductsController@edit', 'Edit', ['id' => $model->id]) }}
+                            @endif
                         </div>
                     </div>
                 </div>
