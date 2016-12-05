@@ -25,7 +25,7 @@
 
         <div class="form-group">
           {!! Form::label('in_stock', 'In Stock') !!}
-          {!! Form::checkbox('in_stock', $model->in_stock ?? 0, $model->in_stock ?? 0) !!}
+          {!! Form::checkbox('in_stock', 1, $model->in_stock ?? 0) !!}
         </div>
 
         <button class="btn btn-success" type="submit">Add Product!</button>

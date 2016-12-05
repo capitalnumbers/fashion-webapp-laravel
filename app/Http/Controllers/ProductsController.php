@@ -135,7 +135,7 @@ class ProductsController extends Controller {
 
         $model = $this->product->findOrFail($id);
 
-        if ($this->product->delete($model->id))
+        if ($this->product->delete($id))
             return redirect()->action('ProductsController@index');
         else
             throw new Exception('Could not delete product.', 1);
