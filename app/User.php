@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the products for the user as seller.
+     */
+    public function products()
+    {
+        return $this->hasMany('App\Repositories\Eloquent\Models\Product', 'product_seller');
+    }
 }

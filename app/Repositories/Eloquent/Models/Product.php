@@ -21,4 +21,12 @@ class Product extends Model
      * @var array
      */
     protected $guarded = ['currency_code', 'created_at', 'updated_at'];
+
+    /**
+     * Get the user that sells the product.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'product_seller');
+    }
 }
