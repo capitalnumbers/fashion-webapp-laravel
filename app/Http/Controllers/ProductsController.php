@@ -46,12 +46,18 @@ class ProductsController extends Controller {
      */
     public function store(Request $request){
 
+        $this->validate($request, [
+            'product_name' => 'bail|required|max:255',
+            'product_description' => 'required',
+            'product_price' => 'required',
+        ]);
+
         if ($model = $this->product->create([
                 'product_name' => $request->product_name,
                 'product_description' => $request->product_description,
                 'product_price' => $request->product_price,
                 'product_seller' => auth()->id(),
-                'in_stock' => $request->in_stock
+                'in_stock' => $request->in_stock ?? '0'
             ])
         )
             return redirect()->action('ProductsController@show', ['id' => $model->id]);
@@ -98,11 +104,17 @@ class ProductsController extends Controller {
 
         $model = $this->product->findOrFail($id);
 
+        $this->validate($request, [
+            'product_name' => 'bail|required|max:255',
+            'product_description' => 'required',
+            'product_price' => 'required',
+        ]);
+
         if ($this->product->update([
                 'product_name' => $request->product_name,
                 'product_description' => $request->product_description,
                 'product_price' => $request->product_price,
-                'in_stock' => $request->in_stock
+                'in_stock' => $request->in_stock ?? '0'
                 ],$model->id
             )
         )
